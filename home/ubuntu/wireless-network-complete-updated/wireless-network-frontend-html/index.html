@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Network Designer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-network-wired"></i>
+                <div>
+                    <h1>AI-Powered Network Designer</h1>
+                    <p class="subtitle">Wireless & Mobile Network Calculations</p>
+                </div>
+            </div>
+            <div class="ai-badge">
+                <i class="fas fa-brain"></i>
+                <span>AI Enhanced</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="scenarios-section">
+                <h2 class="section-title">Choose a Calculation Scenario</h2>
+                <div class="scenarios-grid">
+                    <div class="scenario-card active" data-scenario="wireless">
+                        <div class="scenario-icon"><i class="fas fa-broadcast-tower"></i></div>
+                        <h3>Wireless Communication System</h3>
+                        <p>Calculate the rate at the output of each processing block</p>
+                    </div>
+                    <div class="scenario-card" data-scenario="ofdm">
+                        <div class="scenario-icon"><i class="fas fa-wave-square"></i></div>
+                        <h3>OFDM Systems</h3>
+                        <p>Calculate data rates and spectral efficiency</p>
+                    </div>
+                    <div class="scenario-card" data-scenario="linkbudget">
+                        <div class="scenario-icon"><i class="fas fa-satellite-dish"></i></div>
+                        <h3>Link Budget Calculation</h3>
+                        <p>Compute transmitted power and received signal strength</p>
+                    </div>
+                    <div class="scenario-card" data-scenario="cellular">
+                        <div class="scenario-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>Cellular System Design</h3>
+                        <p>Design cellular network parameters</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="input-section">
+                <div class="input-form active" id="wireless-form">
+                    <h2 class="form-title"><i class="fas fa-broadcast-tower"></i>Wireless Communication System</h2>
+                    <p class="form-description">Calculate the rate at the output of each processing block</p>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="bandwidth">Bandwidth (Hz )</label>
+                            <input type="number" id="bandwidth" placeholder="e.g., 5000" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="quantization-bits">Quantization Bits</label>
+                            <input type="number" id="quantization-bits" placeholder="e.g., 8" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="source-encoder-bits">Source Encoder Bits (Rs)</label>
+                            <input type="number" id="source-encoder-bits" placeholder="e.g., 0.5" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="channel-encoder">Channel Encoder (Rc)</label>
+                            <input type="number" id="channel-encoder" placeholder="e.g., 0.33" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="interleaver-bits">Interleaver Bits</label>
+                            <input type="number" id="interleaver-bits" placeholder="e.g., 1000" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="block-size">Block Size</label>
+                            <input type="number" id="block-size" placeholder="e.g., 100" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="overhead-per-block">Overhead per Block</label>
+                            <input type="number" id="overhead-per-block" placeholder="e.g., 10" required>
+                        </div>
+                    </div>
+                    <button class="calculate-btn" onclick="calculateWireless()"><i class="fas fa-calculator"></i>Calculate Rates</button>
+                </div>
+
+                <div class="input-form" id="ofdm-form">
+                    <h2 class="form-title"><i class="fas fa-wave-square"></i>OFDM Systems</h2>
+                    <p class="form-description">Calculate data rates and spectral efficiency</p>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="bw-resource-block">BW for each Resource Block (KHz)</label>
+                            <input type="number" id="bw-resource-block" placeholder="e.g., 180" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="subcarrier-spacing">Subcarrier Spacing (KHz)</label>
+                            <input type="number" id="subcarrier-spacing" placeholder="e.g., 15" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="ofdm-symbols">OFDM Symbols per RB</label>
+                            <input type="number" id="ofdm-symbols" placeholder="e.g., 7" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="rb-duration">RB Duration (msec)</label>
+                            <input type="number" id="rb-duration" placeholder="e.g., 1" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="modulated-bits">Number of Modulated Bits</label>
+                            <input type="number" id="modulated-bits" placeholder="e.g., 4" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="parallel-rb">Number of Parallel RB</label>
+                            <input type="number" id="parallel-rb" placeholder="e.g., 10" required>
+                        </div>
+                    </div>
+                    <button class="calculate-btn" onclick="calculateOFDM()"><i class="fas fa-calculator"></i>Calculate Rates</button>
+                </div>
+
+                <div class="input-form" id="linkbudget-form">
+                    <h2 class="form-title"><i class="fas fa-satellite-dish"></i>Link Budget Calculation</h2>
+                    <p class="form-description">Compute transmitted power and received signal strength</p>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="ap-tx-power">Access Point Transmit Power (dBm)</label>
+                            <input type="number" id="ap-tx-power" placeholder="e.g., 20" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="ap-antenna-gain">Access Point Antenna Gain (dBi)</label>
+                            <input type="number" id="ap-antenna-gain" placeholder="e.g., 5" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="ap-rx-sensitivity">Access Point Receive Sensitivity (dBm)</label>
+                            <input type="number" id="ap-rx-sensitivity" placeholder="e.g., -80" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="client-tx-power">Client Transmit Power (dBm)</label>
+                            <input type="number" id="client-tx-power" placeholder="e.g., 15" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="client-antenna-gain">Client Antenna Gain (dBi)</label>
+                            <input type="number" id="client-antenna-gain" placeholder="e.g., 3" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="client-rx-sensitivity">Client Receive Sensitivity (dBm)</label>
+                            <input type="number" id="client-rx-sensitivity" placeholder="e.g., -75" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="cable-loss-each-side">Cable Loss (each side) (dB)</label>
+                            <input type="number" id="cable-loss-each-side" placeholder="e.g., 1" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="distance">Distance (km)</label>
+                            <input type="number" id="distance" placeholder="e.g., 0.1" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="frequency">Frequency (GHz)</label>
+                            <input type="number" id="frequency" placeholder="e.g., 2.4" required>
+                        </div>
+                    </div>
+                    <button class="calculate-btn" onclick="calculateLinkBudget()"><i class="fas fa-calculator"></i>Calculate Link Budget</button>
+                </div>
+
+                <div class="input-form" id="cellular-form">
+                    <h2 class="form-title"><i class="fas fa-mobile-alt"></i>Cellular System Design</h2>
+                    <p class="form-description">Design cellular network parameters</p>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="time-slots-per-carrier">Time Slots per Carrier</label>
+                            <input type="number" id="time-slots-per-carrier" placeholder="e.g., 8" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="total-area">Total Area (m²)</label>
+                            <input type="number" id="total-area" placeholder="e.g., 1000000" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="max-number-of-users">Max Number of Users</label>
+                            <input type="number" id="max-number-of-users" placeholder="e.g., 1000" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="number-of-calls-per-day">Number of Calls per Day</label>
+                            <input type="number" id="number-of-calls-per-day" placeholder="e.g., 5000" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="call-duration">Each Call Duration (min)</label>
+                            <input type="number" id="call-duration" placeholder="e.g., 3" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="gos">Grade of Service (GOS)</label>
+                            <input type="number" id="gos" placeholder="e.g., 0.02" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="sir">Signal to Interference Ratio (SIR) in dB</label>
+                            <input type="number" id="sir" placeholder="e.g., 12" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="p0">P0 in dB</label>
+                            <input type="number" id="p0" placeholder="e.g., 30" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="receiver-sensitivity">Receiver Sensitivity (μW)</label>
+                            <input type="number" id="receiver-sensitivity" placeholder="e.g., 0.0001" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="d0">d0 (Reference Distance) in meters</label>
+                            <input type="number" id="d0" placeholder="e.g., 100" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="path-loss-exponent">Path Loss Exponent</label>
+                            <input type="number" id="path-loss-exponent" placeholder="e.g., 3.5" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="co-channel-interferers">Number of Co-channel Interfering Cells</label>
+                            <input type="number" id="co-channel-interferers" placeholder="e.g., 6" required>
+                        </div>
+                    </div>
+                    <button class="calculate-btn" onclick="calculateCellular()"><i class="fas fa-calculator"></i>Calculate System Design</button>
+                </div>
+            </section>
+
+            <section class="results-section" id="results-section" style="display: none;">
+                <div class="results-header">
+                    <h2><i class="fas fa-chart-line"></i>Calculation Results</h2>
+                </div>
+                <div class="calculated-values" id="calculated-values"></div>
+                <div class="ai-explanation">
+                    <h3><i class="fas fa-brain"></i>AI Explanation</h3>
+                    <div id="explanation-content" class="explanation-content"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Calculating...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
