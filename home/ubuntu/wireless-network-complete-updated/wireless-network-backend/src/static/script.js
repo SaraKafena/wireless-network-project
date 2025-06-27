@@ -1,5 +1,5 @@
 // Configuration - تحديث رابط API حسب بيئة التشغيل
-const API_BASE_URL = 'http://localhost:5000'; // للتشغيل المحلي
+const API_BASE_URL = 'https://wireless-network-project-2.onrender.com'; // للتشغيل المحلي
 
 // DOM Elements
 const scenarioCards = document.querySelectorAll('.scenario-card');
