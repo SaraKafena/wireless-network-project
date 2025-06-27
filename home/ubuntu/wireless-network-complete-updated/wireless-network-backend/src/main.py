@@ -2,13 +2,11 @@ import os
 import sys
 import math
 import json
-import openai
+
 
 from dotenv import load_dotenv
 
 load_dotenv()
-openai.api_key = os.getenv('GOOGLE_API_KEY')
-# DON'T CHANGE THIS !!!
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory, request, jsonify
