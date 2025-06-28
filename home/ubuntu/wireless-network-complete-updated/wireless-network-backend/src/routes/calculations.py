@@ -193,7 +193,7 @@ def calculate_cellular():
         print(f"Received data for cellular calculation: {json.dumps(data, indent=2)}")
 
         # المسار المطلق لملف Erlang-B-Table.csv على نظام Windows
-        erlang_table_path = "home\ubuntu\wireless-network-complete-updated\wireless-network-backend\src\routes\Erlang-B-Table.csv"
+        erlang_table_path = "/home/ubuntu/wireless-network-complete-updated/wireless-network-backend/src/routes/Erlang-B-Table.csv"
         print(f"Attempting to load Erlang table from: {erlang_table_path}") # لغرض التتبع
 
         # Load Erlang B table from CSV
