@@ -192,14 +192,6 @@ def calculate_cellular():
         data = request.get_json()
         print(f"Received data for cellular calculation: {json.dumps(data, indent=2)}")
 
-        # المسار المطلق لملف Erlang-B-Table.csv على نظام Windows
-        erlang_table_path = "/home/ubuntu/wireless-network-complete-updated/wireless-network-backend/src/routes/Erlang-B-Table.csv"
-        print(f"Attempting to load Erlang table from: {erlang_table_path}") # لغرض التتبع
-
-        # Load Erlang B table from CSV
-        erlang_table = pd.read_csv(erlang_table_path)
-        print("Erlang table loaded successfully.") # لغرض التتبع
-        
         # استخراج جميع المعاملات من النموذج، باستخدام المفاتيح التي تحتوي على شرطات سفلية لتتوافق مع JS
         time_slots_per_carrier = int(data.get("time_slots_per_carrier", 0))
         total_area = float(data.get("total_area", 0))  # m²
@@ -218,7 +210,7 @@ def calculate_cellular():
         sir_watt = 10 ** (sir / 10)
         p0_watt = 10 ** (p0 / 10)
         
-        # a) Maximum distance between transmitter and receiver
+        # aگراندي) Maximum distance between transmitter and receiver
         if receiver_sensitivity == 0 or path_loss_exponent == 0:
             raise ValueError("Receiver sensitivity and path loss exponent cannot be zero.")
         max_distance = d0 * (p0_watt / receiver_sensitivity) ** (1 / path_loss_exponent)  # meter
@@ -252,28 +244,6 @@ def calculate_cellular():
         cluster_cells = min((n for n in valid_cluster_sizes if n >= cluster_cells_real), default=max(valid_cluster_sizes))
         print(f"Closest valid cluster_cells (rounded to allowed values): {cluster_cells}")  # لغرض التتبع
             
-        # g) Minimum number of carriers for the given QoS
-        gos_columns = erlang_table.columns[1:]  # Exclude the 'N' column
-        gos_values = [float(col.strip('%')) / 100 for col in gos_columns]
-        
-        # التحقق من أن gos ضمن النطاق الصحيح لتجنب الأخطاء
-        if not (0 <= gos <= 1): # GOS عادة ما تكون بين 0 و 1 (0% إلى 100%)
-            raise ValueError("Grade of Service (GOS) must be between 0 and 1.")
-
-        closest_gos_idx = min(range(len(gos_values)), key=lambda i: abs(gos_values[i] - gos))
-        gos_column = gos_columns[closest_gos_idx]
-        
-        channels_needed = 0
-        # تأكد من أن traffic_load_cell ليس سالباً أو NaN
-        if not erlang_table[erlang_table[gos_column] >= traffic_load_cell].empty and traffic_load_cell >= 0:
-            channels_needed = erlang_table[erlang_table[gos_column] >= traffic_load_cell].index[0]
-        else:
-            print(f"Warning: traffic_load_cell ({traffic_load_cell}) is too high or invalid for the Erlang B table or GOS column '{gos_column}'. Defaulting channels_needed to max table length.")
-            channels_needed = len(erlang_table) # Default to max channels if no match found
-            
-        min_carriers = math.ceil(channels_needed * cluster_cells / time_slots_per_carrier) if time_slots_per_carrier > 0 else 0
-        print(f"Calculated min_carriers: {min_carriers}") # لغرض التتبع
-        
         results = {
             "max_distance": f"{max_distance:.2f} meters",
             "max_cell_size": f"{max_cell_size:.2f} m²",
@@ -281,7 +251,7 @@ def calculate_cellular():
             "traffic_load_system": f"{traffic_load_system:.2f} Erlang",
             "traffic_load_cell": f"{traffic_load_cell:.2f} Erlang",
             "cluster_cells": f"{cluster_cells:.0f} cells",
-            "min_carriers": f"{min_carriers} carriers"
+            "min_carriers": "Not calculated (Erlang table unavailable)"
         }
         
         explanation = generate_ai_explanation("cellular", data, results)
